@@ -1,6 +1,7 @@
 #!/bin/sh
 
 while true; do
- nvidia-smi
+ sleep 1
  clear
+ nvidia-smi
 done
