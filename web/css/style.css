@@ -1,0 +1,149 @@
+body {
+	font-family: 'Open Sans', Helvetica, sans-serif;
+	padding: 0;
+	margin: 0;
+	color: #666;
+	padding-bottom: 40px;
+}
+
+a {
+	text-decoration: none;
+	color: #8AA7DE;
+}
+
+/* Initially hide until page is loaded */
+#main {
+}
+
+#login {
+	margin: 0 auto;
+	text-align: center;
+}
+
+.title {
+	font-weight: 600;
+	background-color: #9F62BD;
+	color: #fff;
+	padding: 20px 20px;
+	margin-bottom: 20px;
+	text-align: center;
+	font-size: 3em;
+}
+
+.container {
+	text-align: center;
+}
+
+.container .heading {
+	font-weight: 400;
+	font-size: 1.5em;
+	padding: 0 0.5em 0.5em;
+}
+
+.grid {
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+.grid .box {
+	display: inline-block;
+	border: 4px solid #eee;
+	padding: 0.5% 0.5% 0 0.5%;
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	transition: 0.2s ease-out border;
+}
+
+.grid .box.one {
+	width: 45%;
+	height: 300px;
+	border: none;
+	background-size: auto 100% !important; 
+	max-width: 500px;
+}
+
+.grid .box.two {
+	width: 33%;
+	height: 300px;
+	max-width: 450px;
+}
+
+.grid .box.three {
+	width: 28%;
+	padding: 0.5% 0.5% 0 0.5%;
+	cursor: pointer;
+	background-size: auto 100% !important;
+	height: 300px;
+	max-width: 300px;
+}
+
+.grid .box.three:first-child {
+	background-position: right;
+	background-image: url('http://3.bp.blogspot.com/-4Uj3hPFupok/VYIT6s_c9OI/AAAAAAAAAlc/_yGdbbsmGiw/s1600/ibis.png');
+}
+
+.grid .box.three:nth-child(2) {
+	background-image: url('http://i.guim.co.uk/img/static/sys-images/Guardian/Pix/pictures/2015/6/18/1434625863988/6e8d3c57-f283-4f63-94cd-9299a160f80d-620x372.jpeg?w=620&q=85&auto=format&sharp=10&s=05e03d5a79db2dbcf86944ea3882d9dd');
+}
+
+.grid .box.three:nth-child(3) {
+	background-image: url('http://i.kinja-img.com/gawker-media/image/upload/s--GS3IJb27--/1334771764183868967.png');
+}
+
+.grid .box.selectable:hover {
+	border: 4px solid #9F62BD;
+	cursor: pointer;
+}
+
+.grid .box .caption {
+	display: inline-block;
+	position: relative;
+	bottom: -102.5%;
+	padding: 4px 0;
+}
+
+.grid .box:nth-child(even) {
+	margin: 0 20px 20px 20px;
+}
+
+.footer {
+	position: absolute;
+	bottom: 0;
+	padding: 20px 0;
+	width: 100%;
+	background-color: #555;
+	color: #fff;
+	text-align: center;
+}
+
+@media only screen and (max-width: 720px)
+{
+	.grid .box {
+		display: block !important;
+		margin: 0 auto !important;
+		width: 90% !important;
+		max-width: 300px !important;
+	}
+
+	.grid .box:not(:first-child) {
+		margin: 40px auto !important;
+	}
+}
+
+/* Animations */
+.ng-hide-add, .ng-hide-remove {
+    /* ensure visibility during the transition */
+    display: block !important; /* yes, important */
+}
+
+.animate-show {
+	transition: 2s ease-out all;
+	opacity: 1;
+}
+
+
+.ng-hide {
+	transition: 0s all;
+	opacity: 0;
+}
