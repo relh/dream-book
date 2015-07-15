@@ -1,4 +1,4 @@
-#
+#f
 import os
 import sys
 sys.path.insert(0, '/home/ubuntu/deep-dream-generator/caffe-master/distribute/python')
@@ -37,7 +37,8 @@ model.force_backward = True
 open('tmp.prototxt', 'w').write(str(model))
 
 net = caffe.Classifier('tmp.prototxt', param_fn,
-                       mean = np.float32([104.0, 116.0, 122.0]))
+                       mean = np.float32([104.0, 116.0, 122.0]),
+channel_swap = (2,1,0))
 
 # a couple of utility functions for converting to and from Caffe's input image layout
 def preprocess(net, img):
@@ -105,8 +106,5 @@ def deepdream(net, base_img, iter_n=10, octave_n=4, octave_scale=1.4, end='incep
     return deprocess(net, src.data[0])
 
 def dreambaby(img_input):
-    try:
-        img = np.float32(img_input)
-        return showarray(deepdream(net, deepdream(net, img)))
-    except:
-        time.sleep(0.1)
+    img = np.float32(img_input)
+    return showarray(deepdream(net, img))
