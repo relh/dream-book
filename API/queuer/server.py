@@ -46,7 +46,13 @@ def generate_token():
 @route('/dream', method='GET')
 def push():
     ''' takes parameter url, returns token if url is good'''
+    ''' also takes parameter template, which is a number'''
     url = request.params.get('url', '')
+    try:
+        template = int(request.params.get('template', ''))
+        assert(0 <= template <= 1000) # to be decided
+    except:
+        template = 0
     # does url need to be urldecoded
     if not url_test(url):
         response.status = 400
@@ -54,7 +60,7 @@ def push():
     if url in URL_CACHE:
         return URL_CACHE[url]
     URL_CACHE[url] = token = generate_token()
-    MANAGED_QUEUE.put((token, url))
+    MANAGED_QUEUE.put((token, template, url))
     return token
 
 
