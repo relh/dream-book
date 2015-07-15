@@ -26,7 +26,8 @@ def make(authkey, public=True, debug=False):
     qm = QManager(address=(ip, PORT), authkey=authkey)
     qm.start()
     if debug:
-        get('localhost', authkey)
+        make(authkey)
+        #get('localhost', authkey)
     return queue
 
 print 'will work'
