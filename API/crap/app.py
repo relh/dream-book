@@ -21,6 +21,6 @@ if __name__ == '__main__':
   def index(self, input):
    cherrypy.response.headers['Content-Type'] = 'image/jpeg'
    im = PIL.Image.open(StringIO.StringIO(urllib2.urlopen(input).read()))
-   return dreambaby(PIL.ImageOps.invert(im))
+   return dreambaby(im)
  
  cherrypy.quickstart(HelloWorld())

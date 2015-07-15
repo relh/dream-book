@@ -1,12 +1,10 @@
-#
-import os
-import sys
-sys.path.insert(0, '/home/ubuntu/deep-dream-generator/caffe-master/distribute/python')
-#sys.path.insert(0, '/home/ubuntu/deep-dream-generator/caffe-master/distribute/lib')
-# /distribute/lib/
-os.system('export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/deep-dream-generator/caffe-master/distribute/lib')
-
 # imports and basic notebook setup
+
+import os
+os.system('export PYTHONPATH=/home/ubuntu/deep-dream-generator/caffe-master/distribute/python')
+os.system('export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/deep-dream-generator/caffe-master')
+
+
 from cStringIO import StringIO
 import numpy as np
 import scipy.ndimage as nd
@@ -22,8 +20,7 @@ caffe.set_mode_gpu()
 def showarray(a, fmt='jpeg'):
     a = np.uint8(np.clip(a, 0, 255))
     f = StringIO()
-    PIL.Image.fromarray(a).save(f, fmt)
-    return f.getvalue()
+    PIL.Image.fromarray(a).save('/home/ubuntu/deep-dream-generator/output.jpg', fmt)
 
 model_path = '/home/ubuntu/deep-dream-generator/caffe-master/models/bvlc_googlenet/'
 net_fn   = model_path + 'deploy.prototxt'#deploy.prototxt'
@@ -107,6 +104,6 @@ def deepdream(net, base_img, iter_n=10, octave_n=4, octave_scale=1.4, end='incep
 def dreambaby(img_input):
     try:
         img = np.float32(img_input)
-        return showarray(deepdream(net, deepdream(net, img)))
+        return deepdream(net, deepdream(net, img))
     except:
         time.sleep(0.1)
