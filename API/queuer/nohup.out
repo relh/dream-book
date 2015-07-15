@@ -1,0 +1,22 @@
+Bottle v0.12.8 server starting up (using TornadoServer())...
+Listening on http://0.0.0.0:80/
+Hit Ctrl-C to quit.
+
+Traceback (most recent call last):
+  File "server.py", line 68, in <module>
+    run(host='0.0.0.0', port=80, server='tornado')
+  File "/home/ubuntu/anaconda/lib/python2.7/site-packages/bottle.py", line 3117, in run
+    server.run(app)
+  File "/home/ubuntu/anaconda/lib/python2.7/site-packages/bottle.py", line 2850, in run
+    server.listen(port=self.port,address=self.host)
+  File "/home/ubuntu/anaconda/lib/python2.7/site-packages/tornado/tcpserver.py", line 126, in listen
+    sockets = bind_sockets(port, address=address)
+  File "/home/ubuntu/anaconda/lib/python2.7/site-packages/tornado/netutil.py", line 187, in bind_sockets
+    sock.bind(sockaddr)
+  File "/home/ubuntu/anaconda/lib/python2.7/socket.py", line 228, in meth
+    return getattr(self._sock,name)(*args)
+socket.error: [Errno 13] Permission denied
+Bottle v0.12.8 server starting up (using TornadoServer())...
+Listening on http://0.0.0.0:80/
+Hit Ctrl-C to quit.
+
