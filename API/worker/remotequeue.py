@@ -4,6 +4,8 @@ from multiprocessing import Queue
 PORT = 8989
 
 def get(ip, authkey):
+    print globals()
+    print locals()
     ''' gets a remote queue on another ip '''
     class RManager(BaseManager):
         ''' manager which connects to a remote queue '''
@@ -28,11 +30,11 @@ def make(authkey, public=True, debug=False):
     return queue
 
 print 'will work'
-make('a')
+make('a', debug=True)
 print 'correct, it worked!'
 
 print 'will not work'
-make('a', debug=True)
+make('a')
 get('localhost', 'a')
 print 'oh wow, it worked!'
 
