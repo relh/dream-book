@@ -9,7 +9,53 @@ import re
 from Queue import Queue
 from bottle import route, hook, response, run, static_file, request
 
+data_structure = []
+# {input: url, status: done, output: url}
+
+workers = ['127.0.0.1']
+workers_available = {}
+for worker in workers:workers_available[worker] = True
+
+workerthreads = []
+todo = Queue()
+
+def dowork(worker_ip, input_image):
+    pass
+    # hit worker_ip with this request
+
+def workerThread(worker_ip):
+    while True:
+        time.sleep(0.5)
+        if workers_available[worker_ip]:
+            dowork(worker_ip, todo.get())
+            workers_available[worker_ip] = False
+
+for worker in workers:
+    workert = threading.Thread(target = workerThread, args = (worker, ))
+    workerthreads.append(workert)
+    workert.daemon = True
+    workert.start()
+
+try:
+    thing = open('data.bkp').read()
+    data_structure = eval(thing)
+except:
+    pass
+
+def backupData():
+    while True:
+        time.sleep(30)
+        open('data.bkp','w').write(str(data_structure))
+
 url_cache = {}
+
+for c, item in enumerate(data_structure):
+    url_cache[item['input']] = c
+
+backerupper = threading.Thread(target = backupData)
+backerupper.daemon = True
+backerupper.start()
+
 
 @route('/')
 def index():
