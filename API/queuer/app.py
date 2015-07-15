@@ -1,17 +1,33 @@
 #!/usr/bin/env python
 '''
 This server manages a queue, which is shared by the workers and
-the autoscaler. It also generates tokens.
+the autoscaler. It also generates tokens. The queue is on port
+6200.
 '''
 
-from Queue import Queue
+from multiprocessing.managers import BaseManager
+from multiprocessing import Queue
 from bottle import route, response, run, request
 import random
 
-# constants
-URL_CACHE = {}
+# set up queue manager
+AUTH_KEY = 'changeinprod'
 MANAGED_QUEUE = Queue()
+
+
+class Manager(BaseManager):
+
+    ''' server which manages the queue '''
+    pass
+
+Manager.register('getQueue', callable=lambda: MANAGED_QUEUE)
+Manager(address=('0.0.0.0', 6200), authkey=AUTH_KEY).start()
+
+
+# constants
 LETTERS = 'abcefghijklmnopqrstuvwxyz'
+URL_CACHE = {}
+
 
 def url_test(url):
     ''' tests to see if the str passed is a fb profile image url'''
@@ -20,10 +36,12 @@ def url_test(url):
         return False
     return 'facebook' in url.lower() or 'fb' in url.lower()
 
+
 def generate_token():
     ''' returns string len 24 of lowercase letters '''
     chars = [random.choice(LETTERS) for _ in range(24)]
     return ''.join(chars)
+
 
 @route('/dream', method='GET')
 def push():
@@ -38,6 +56,7 @@ def push():
     URL_CACHE[url] = token = generate_token()
     MANAGED_QUEUE.put((token, url))
     return token
+
 
 if __name__ == '__main__':
     run(host='0.0.0.0', port=80, server='tornado')
