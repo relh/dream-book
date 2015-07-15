@@ -9,10 +9,9 @@ import boto3
 import PIL.Image
 import urllib2
 from cStringIO import StringIO
-from multiprocessing import Queue
-from multiprocessing.managers import BaseManager
 import traceback
 import threading
+import remotequeue
 
 # dreambaby is a generator which yields StringIO buffers containing
 # partial deep dreams, until the last one, the full deep dream
@@ -23,17 +22,7 @@ from deepdream import dreambaby
 AUTH_KEY = 'changeinprod'
 QUEUE_IP = '127.0.0.1'
 
-
-class Manager(BaseManager):
-    ''' manager which connects to a remote queue '''
-    pass
-
-
-Manager.register('getQueue')
-MANAGER = Manager(address=(QUEUE_IP, 6200), authkey=AUTH_KEY)
-MANAGER.connect()
-MANAGED_QUEUE = MANAGER.getQueue()
-
+MANAGED_QUEUE = remotequeue.get(QUEUE_IP, AUTH_KEY)
 
 S3 = boto3.resource('s3')
 BUCKET_NAME = 'deepdreambook'
@@ -55,11 +44,18 @@ def push_buffer(buf, key):
 def run_worker():
     ''' runs worker indefinitely '''
     while True:
-        token, template, url = MANAGED_QUEUE.get()
-        image = url_to_image(url)
+        try:
+            token, template, url = MANAGED_QUEUE.get()
+            print url
+            if '/' not in url:
+             print 'bye';return
+            image = url_to_image(url)
+        except:
+            traceback.print_exc()
+            continue
         generator = dreambaby(image, template)
         for counter, partial in enumerate(generator):
-            push_buffer(partial, token + str(counter))
+            push_buffer(partial, token + str(counter) + '.jpg')
 
 if __name__ == '__main__':
     for k in range(NUM_THREADS):
