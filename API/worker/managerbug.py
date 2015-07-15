@@ -5,7 +5,7 @@ import time
 import gc
 gc.disable()
 
-def make(debug=0):
+def make(debug=1):
     ''' makes a remote queue and returns it '''
     class QManager(BaseManager):
         ''' manager of a remote queue '''
@@ -23,17 +23,30 @@ def make(debug=0):
             print traceback.print_exc()
     if debug == 2:
         raise Exception
+    if debug == 3:
+        return qm
 
-print 1
-make(0)
-make(0)
-print 2
+make(0) # creates qm; upon return qm goes away
+make(3) # the server stops running because it wasn't put somewhere
+make(0) # showing that make(3) does nothing
+
+f = make(3) # the server keeps running because it was put in f
+try:
+ make(0) # tries using the same ip,port to show server is running
+ print 'not expected'
+except:
+ print 'expected'
+f.shutdown() # gets rid of server
+
+make(1) # running make inside make fails; we have reference to qm
 
 try:
- make(2)
+ make(2) # exit using an exception; the server doesn't stop!
 except:
  pass
-print 3
+try:
+ make(0) # should not work because ip,port in use
+ print 'not expected'
+except:
+ print 'expected'
 
-make(0)
-print 4
