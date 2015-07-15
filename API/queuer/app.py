@@ -1,55 +1,43 @@
 #!/usr/bin/env python
+'''
+This server manages a queue, which is shared by the workers and
+the autoscaler. It also generates tokens.
+'''
 
-import datetime
-import threading
-import time
-import json
-import random
-import re
 from Queue import Queue
-from bottle import route, hook, response, run, static_file, request
+from bottle import route, response, run, request
+import random
 
-url_cache = {}
+# constants
+URL_CACHE = {}
+MANAGED_QUEUE = Queue()
+LETTERS = 'abcefghijklmnopqrstuvwxyz'
 
-@route('/')
-def index():
-    return 'Not found'
-
-@route('/push', method = 'GET')
-def push():
-    url = request.params.get('url','')
-    # does url need to be urldecoded
+def url_test(url):
+    ''' tests to see if the str passed is a fb profile image url'''
+    # needs significant testing!
     if 'http' not in url:
-        return 'Error'
-    if url in url_cache:
-        return url_cache[url]
-    url_cache[url] = len(data_structure)
-    data_structure.append({'input':url, 'output':''})
-    todo.put(url)
-    return url_cache[url]
+        return False
+    return 'facebook' in url.lower() or 'fb' in url.lower()
 
-@route('/status/<place>')
-def status(place='0'):
-    try:
-        numplace = int(place)
-    except:
-        return 'Error'
-    if len(data_structure) > numplace:
-        return data_structure[numplace]['output']
-    return 'Error'
+def generate_token():
+    ''' returns string len 24 of lowercase letters '''
+    chars = [random.choice(LETTERS) for _ in range(24)]
+    return ''.join(chars)
 
-@route('/update/<place>/<output>')
-def update(place='x', output='x'):
-    # how does remote ip look for localhost
-    remote_ip = request.environ.get('REMOTE_ADDR')
-    print remote_ip
-    try:
-        numplace = int(place)
-        if remote_ip not in workers:
-            raise
-    except:
-        return 'Error'
-    data_structure[numplace]['output'] = output
-    workers_available[remote_ip] = True
+@route('/dream', method='GET')
+def push():
+    ''' takes parameter url, returns token if url is good'''
+    url = request.params.get('url', '')
+    # does url need to be urldecoded
+    if not url_test(url):
+        response.status = 400
+        return 'Error: bad image URL'
+    if url in URL_CACHE:
+        return URL_CACHE[url]
+    URL_CACHE[url] = token = generate_token()
+    MANAGED_QUEUE.put((token, url))
+    return token
 
-run(host = '0.0.0.0', port = 8080, server = 'tornado')
+if __name__ == '__main__':
+    run(host='0.0.0.0', port=80, server='tornado')
