@@ -1,27 +1,18 @@
 #!/usr/bin/env python
+#!/usr/bin/env python
 '''
 This server manages a queue, which is shared by the workers and
 the autoscaler. It also generates tokens. The queue is on port
 6200.
 '''
 
-from multiprocessing.managers import BaseManager
-from multiprocessing import Queue
+import remotequeue
 from bottle import route, response, run, request
 import random
 
 # set up queue manager
 AUTH_KEY = 'changeinprod'
-MANAGED_QUEUE = Queue()
-
-
-class Manager(BaseManager):
-
-    ''' server which manages the queue '''
-    pass
-
-Manager.register('getQueue', callable=lambda: MANAGED_QUEUE)
-Manager(address=('0.0.0.0', 6200), authkey=AUTH_KEY).start()
+MANAGED_QUEUE = remotequeue.make(AUTH_KEY, public=True)
 
 
 # constants
