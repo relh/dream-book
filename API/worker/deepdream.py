@@ -105,6 +105,6 @@ def deepdream(net, base_img, iter_n=10, octave_n=4, octave_scale=1.4, end='incep
     # returning the resulting image
     return deprocess(net, src.data[0])
 
-def dreambaby(img_input):
+def dreambaby(img_input, template = 0):
     img = np.float32(img_input)
     return showarray(deepdream(net, img))
