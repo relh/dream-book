@@ -1,7 +1,7 @@
 from multiprocessing.managers import BaseManager
 from multiprocessing import Queue
 
-PORT = 6200
+PORT = 8989
 
 def get(ip, authkey):
     ''' gets a remote queue on another ip '''
@@ -13,13 +13,27 @@ def get(ip, authkey):
     current_manager.connect()
     return current_manager.getQueue()
 
-def make(authkey, public=True):
+def make(authkey, public=True, debug=False):
     ''' makes a remote queue and returns it '''
     class QManager(BaseManager):
         ''' manager of a remote queue '''
         pass
     queue = Queue()
     QManager.register('getQueue', callable=lambda:queue)
-    ip = '' if public else 'localhost'
-    QManager(address=(ip, PORT), authkey=authkey).start()
+    ip = '0.0.0.0' if public else 'localhost'
+    qm = QManager(address=(ip, PORT), authkey=authkey)
+    qm.start()
+    if debug:
+        get('localhost', authkey)
     return queue
+
+print 'will work'
+make('a')
+print 'correct, it worked!'
+
+print 'will not work'
+make('a', debug=True)
+get('localhost', 'a')
+print 'oh wow, it worked!'
+
+print 'yay'
