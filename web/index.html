@@ -25,16 +25,16 @@
 <div class="title">dreambook</div>
 
 
-<div class="container animate-show" ng-cloak ng-show="!initialized">
-	Loading...
+<div class="container animate-show" ng-cloak ng-show="step == 0">
+	<div class="heading">Loading...</div>
 </div>
 
-<div id='login' class="container animate-show" ng-cloak ng-show="initialized && !connected">
+<div id='login' class="container animate-show" ng-cloak ng-show="step == 1">
 	<div class="heading">Log in with Facebook to get started</div>
 	<div class="fb-login-button" data-size="xlarge" data-show-faces="false" data-auto-logout-link="false" onlogin="checkLoginState();"></div>
 </div>
 
-<div id="main" class="container animate-show" ng-cloak ng-show="connected && !selected">
+<div id="photo" class="container animate-show" ng-cloak ng-show="step == 2">
 	<div class="heading">Choose a photo to dream about</div>
 
 	<div class="grid">
@@ -51,7 +51,7 @@
 	</div>
 </div>
 
-<div id="main" class="container animate-show" ng-cloak ng-show="selected">
+<div id="style" class="container animate-show" ng-cloak ng-show="step == 3">
 	<div class="heading">Selected photo:</div>
 	<div class="grid">
 		<a href="">
@@ -77,6 +77,15 @@
 			<div class="caption">
 					Animal
 			</div>
+		</div>
+	</div>
+</div>
+
+<div id="dream" class="container animate-show" ng-cloak ng-show="step == 4">
+	<div class="heading" ng-hide="dreamComplete">Morphing...</div>
+	<div class="heading" ng-show="dreamComplete">DONE</div>
+	<div class="grid">
+		<div class="box one" style="background-image: url('{{ dreamPhoto }}');">
 		</div>
 	</div>
 </div>
