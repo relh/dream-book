@@ -1,0 +1,36 @@
+Terminology:
+- queuer: server exposed to clients; pushes to workers
+- client: browsers of users visiting the website
+- worker: servers which have GPUs and run deep dream
+- autoscaler: manages number of workers
+
+Client overview:
+Client visits website, gets a FB profile photo URL.
+Client hits queuer with FB profile photo URL.
+Queuer responds to client with a token.
+Client can generate S3 image URLs using that token.
+These S3 images indicate the status of the photo.
+Client grabs S3(1)...S3(10), and displays these to user.
+S3(10) is the last image, and once displayed client is done.
+
+Queuer overview:
+Queuer gets hit with an image URL.
+Queuer checks if URL is actually FB profile photo.
+If not, returns error.
+Queuer checks if URL has been requested before.
+If so, return that token.
+Queuer responds to client with a randomly generated token.
+Queuer puts this token and image URL into a managed queue.
+
+Worker overview:
+Worker connects to the queuer's managed queue.
+Worker places a blocking get on the queue.
+Worker gets token and image URL from queue.
+Worker carries out deep dream on the image URL.
+For each partial dream, worker pushes image to S3.
+When dream is completed, worker places get on queue.
+
+Autoscaler overview:
+Monitors the size of the managed queue
+If the managed queue gets too big, it creates more workers
+If the rate of requests is low, it spins down workers

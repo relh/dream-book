@@ -1,4 +1,3 @@
-#
 import os
 import sys
 sys.path.insert(0, '/home/ubuntu/deep-dream-generator/caffe-master/distribute/python')
@@ -19,12 +18,6 @@ import caffe
 caffe.set_device(0)
 caffe.set_mode_gpu()
 
-def showarray(a, fmt='jpeg'):
-    a = np.uint8(np.clip(a, 0, 255))
-    f = StringIO()
-    PIL.Image.fromarray(a).save(f, fmt)
-    return f.getvalue()
-
 model_path = '/home/ubuntu/deep-dream-generator/caffe-master/models/bvlc_googlenet/'
 net_fn   = model_path + 'deploy.prototxt'#deploy.prototxt'
 param_fn = model_path + 'bvlc_googlenet.caffemodel'#bvlc_googlenet.caffemodel'
@@ -37,7 +30,8 @@ model.force_backward = True
 open('tmp.prototxt', 'w').write(str(model))
 
 net = caffe.Classifier('tmp.prototxt', param_fn,
-                       mean = np.float32([104.0, 116.0, 122.0]))
+                       mean = np.float32([104.0, 116.0, 122.0]),
+channel_swap = (2,1,0))
 
 # a couple of utility functions for converting to and from Caffe's input image layout
 def preprocess(net, img):
@@ -96,17 +90,26 @@ def deepdream(net, base_img, iter_n=10, octave_n=4, octave_scale=1.4, end='incep
             vis = deprocess(net, src.data[0])
             if not clip: # adjust image contrast if clipping is disabled
                 vis = vis*(255.0/np.percentile(vis, 99.98))
+                partial = StringIO()
+                PIL.Image.fromarray(np.uint8(np.clip(vis, 0, 255))).save(partial,'jpeg')
+                yield partial.getvalue()
             print octave, i, end, vis.shape
             clear_output(wait=True)
             
         # extract details produced on the current octave
         detail = src.data[0]-octave_base
     # returning the resulting image
-    return deprocess(net, src.data[0])
+        partial = StringIO()
+        PIL.Image.fromarray(np.uint8(np.clip(deprocess(net, src.data[0]), 0, 255))).save(partial,'jpeg')
+        yield partial.getvalue()
 
-def dreambaby(img_input):
-    try:
-        img = np.float32(img_input)
-        return showarray(deepdream(net, img))
-    except:
-        time.sleep(0.1)
+# deep dream
+# on each image:
+def dreambaby(img_input, template = 0):
+    img = np.float32(img_input)
+    if template == 0:
+        for partial in deepdream(net, img):
+            yield partial
+    elif template == 1:
+        for partial in deepdream(net, img, end = 'pool2/3x3_s2'):
+            yield partial
