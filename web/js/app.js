@@ -99,7 +99,7 @@
 			$scope.step = 4;
 
 			var client = new HttpClient();
-			var uri = "http://45.55.164.254/dream?url=" + encodeURIComponent($scope.photo) + "&template=1";
+			var uri = "https://45.55.164.254/dream?url=" + encodeURIComponent($scope.photo) + "&template=1";
 			console.log("Querying " + uri + "...");
 
 			client.get(uri, function(response) {
@@ -120,7 +120,7 @@
 
 		// Continually refresh image and progress through phases
 		var refreshImage = function() {
-			var uri = "http://deepdreambook.s3.amazonaws.com/" + dreamPhotoID + dreamStep + ".jpg";
+			var uri = "https://deepdreambook.s3.amazonaws.com/" + dreamPhotoID + dreamStep + ".jpg";
 			var client = new HttpClient();
 
 			client.get(uri, function(response) {
