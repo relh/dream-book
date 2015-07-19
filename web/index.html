@@ -4,13 +4,13 @@
 
 <meta charset="UTF-8">
 <title>dreambook</title>
-<meta name="author" content="Matt Favero, Shariq Hashme, Richard Higgens">
+<meta name="author" content="Matt Favero, Richard Higgens, Shariq Hashme">
 <meta name="description" content="Deep Dream for your Facebook profile picture.">
 <link rel="stylesheet" href="css/style.css" type="text/css">
 
-<script src="/js/angular/angular.min.js"></script>
-<script src="/js/angular-animate/angular-animate.min.js"></script>
-<script src="/js/app.js"></script>
+<script src="js/angular/angular.min.js"></script>
+<script src="js/angular-animate/angular-animate.min.js"></script>
+<script src="js/app.js"></script>
 <script>
 	var checkLoginState = function () {
 		angular.element(document.getElementById('controller')).scope().checkLoginState();
@@ -38,12 +38,12 @@
 	<div class="heading">Choose a photo to dream about</div>
 
 	<div class="grid">
-		<div id="profile" class="box two selectable" ng-click="selectPhoto(profile)">
+		<div id="profile" class="box two profile selectable" ng-click="selectPhoto(profile)">
 			<div class="caption">
 				Profile
 			</div>
 		</div>
-		<div id="cover" class="box two selectable" ng-click="selectPhoto(cover)">
+		<div id="cover" class="box two cover selectable" ng-click="selectPhoto(cover)">
 			<div class="caption">
 				Cover
 			</div>
@@ -63,17 +63,17 @@
 	<div class="heading">Now choose a type of dream</div>
 
 	<div class="grid">
-		<div class="box three selectable" ng-click="dream('edges')">
+		<div class="box three selectable" ng-click="dream(1)">
 			<div class="caption">
 				Edges
 			</div>
 		</div>
-		<div class="box three selectable" ng-click="dream('floral')">
+		<div class="box three selectable" ng-click="dream(4)">
 			<div class="caption">
 					Floral
 			</div>
 		</div>
-		<div class="box three selectable" ng-click="dream('animal')">
+		<div class="box three selectable" ng-click="dream(7)">
 			<div class="caption">
 					Animal
 			</div>
@@ -82,12 +82,11 @@
 </div>
 
 <div id="dream" class="container animate-show" ng-cloak ng-show="step == 4">
-	<div class="heading" ng-hide="dreamComplete">Morphing...</div>
-	<div class="heading" ng-show="dreamComplete">DONE</div>
+	<div class="heading" ng-hide="dreamComplete">Dreaming...</div>
 	<div class="grid">
-		<div class="box one" style="background-image: url('{{ dreamPhoto }}');">
-		</div>
+		<img id="dreamphoto" src="{{ dreamPhoto }}" width="80%">
 	</div>
+	<div class="heading" ng-show="dreamComplete">DONE</div>
 </div>
 
 <!--
