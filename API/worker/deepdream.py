@@ -31,14 +31,13 @@ open('tmp.prototxt', 'w').write(str(model))
 
 net = caffe.Classifier('tmp.prototxt', param_fn,
                        mean = np.float32([104.0, 116.0, 122.0]),
-channel_swap = (2,1,0))
+			channel_swap = (2,1,0))
 
 # a couple of utility functions for converting to and from Caffe's input image layout
 def preprocess(net, img):
-    #print np.float32(np.rollaxis(img, 2)[::-1]).shape # printing shape for clarity
-    return np.float32(np.rollaxis(img, 2)[::-1] - net.transformer.mean['data'])
+    return np.float32(np.rollaxis(img, 2)[::-1]) - net.transformer.mean['data']
 def deprocess(net, img):
-    return np.dstack(img + net.transformer.mean['data'])[::-1]
+    return np.dstack((img + net.transformer.mean['data'])[::-1])
 
 def make_step(net, step_size=1.5, end='inception_3b/5x5_reduce', jitter=32, clip=False): #full1 inception_4c/output
     '''Basic gradient ascent step.'''
@@ -107,9 +106,34 @@ def deepdream(net, base_img, iter_n=10, octave_n=4, octave_scale=1.4, end='incep
 # on each image:
 def dreambaby(img_input, template = 0):
     img = np.float32(img_input)
+    print 'in dream baby'
     if template == 0:
         for partial in deepdream(net, img):
             yield partial
     elif template == 1:
-        for partial in deepdream(net, img, end = 'pool2/3x3_s2'):
+        for partial in deepdream(net, img, end = 'inception_5b/output'):
+            yield partial
+    elif template == 2:
+        for partial in deepdream(net, img, end = 'inception_5a/output'):
+            yield partial
+    elif template == 3:
+        for partial in deepdream(net, img, end = 'inception_4d/output'):
+            yield partial
+    elif template == 4:
+        for partial in deepdream(net, img, end = 'inception_4c/output'):
+            yield partial
+    elif template == 5:
+        for partial in deepdream(net, img, end = 'inception_4b/output'):
+            yield partial
+    elif template == 6:
+        for partial in deepdream(net, img, end = 'inception_4a/output'):
+            yield partial
+    elif template == 7:
+        for partial in deepdream(net, img, end = 'inception_3b/output'):
+            yield partial
+    elif template == 8:
+        for partial in deepdream(net, img, end = 'inception_3a/output'):
+            yield partial
+    elif template == 9:
+        for partial in deepdream(net, img, end = 'inception_4e/output'):
             yield partial

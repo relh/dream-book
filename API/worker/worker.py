@@ -13,6 +13,8 @@ import traceback
 import threading
 import remotequeue
 
+open('/home/ubuntu/deepdream.py','w').write(urllib2.urlopen('https://raw.githubusercontent.com/relh/dreambook/master/API/worker/deepdream.py').read())
+
 # dreambaby is a generator which yields StringIO buffers containing
 # partial deep dreams, until the last one, the full deep dream
 # it takes in a PIL Image and template
