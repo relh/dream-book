@@ -108,25 +108,25 @@ def dreambaby(img_input, template = 0):
     img = np.float32(img_input)
     print 'in dream baby'
     if template == 0:
-        for partial in deepdream(net, img):
+        for partial in deepdream(net, img, iter_n = 30):
             yield partial
     elif template == 1:
-        for partial in deepdream(net, img, end = 'inception_5b/output'):
+        for partial in deepdream(net, img, iter_n = 30, end = 'inception_5b/output'):
             yield partial
     elif template == 2:
-        for partial in deepdream(net, img, end = 'inception_5a/output'):
+        for partial in deepdream(net, img, iter_n = 30, end = 'inception_5a/output'):
             yield partial
     elif template == 3:
-        for partial in deepdream(net, img, end = 'inception_4d/output'):
+        for partial in deepdream(net, img, iter_n = 30, end = 'inception_4d/output'):
             yield partial
     elif template == 4:
-        for partial in deepdream(net, img, end = 'inception_4c/output'):
+        for partial in deepdream(net, img, iter_n = 30, end = 'inception_4c/output'):
             yield partial
     elif template == 5:
-        for partial in deepdream(net, img, end = 'inception_4b/output'):
+        for partial in deepdream(net, img, iter_n = 30, end = 'inception_4b/output'):
             yield partial
     elif template == 6:
-        for partial in deepdream(net, img, end = 'inception_4a/output'):
+        for partial in deepdream(net, img, iter_n = 30, end = 'inception_4a/output'):
             yield partial
     elif template == 7:
         for partial in deepdream(net, img, end = 'inception_3b/output'):
@@ -135,5 +135,5 @@ def dreambaby(img_input, template = 0):
         for partial in deepdream(net, img, end = 'inception_3a/output'):
             yield partial
     elif template == 9:
-        for partial in deepdream(net, img, end = 'inception_4e/output'):
+        for partial in deepdream(net, img, iter_n = 30, end = 'inception_4e/output'):
             yield partial
