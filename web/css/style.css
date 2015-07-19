@@ -21,13 +21,21 @@ a {
 }
 
 .title {
-	font-weight: 600;
 	background-color: #9F62BD;
-	color: #fff;
 	padding: 20px 20px;
 	margin-bottom: 20px;
 	text-align: center;
+}
+
+.title a {
+	font-weight: 600;
 	font-size: 3em;
+	color: #fff;
+}
+
+.title a:hover {
+	color: #ccffcc;
+	text-shadow: 0 0 10px #ccffcc;
 }
 
 .container {
@@ -79,19 +87,6 @@ a {
 	max-width: 300px;
 }
 
-.grid .box.three:first-child {
-	background-position: right;
-	background-image: url('http://3.bp.blogspot.com/-4Uj3hPFupok/VYIT6s_c9OI/AAAAAAAAAlc/_yGdbbsmGiw/s1600/ibis.png');
-}
-
-.grid .box.three:nth-child(2) {
-	background-image: url('http://i.guim.co.uk/img/static/sys-images/Guardian/Pix/pictures/2015/6/18/1434625863988/6e8d3c57-f283-4f63-94cd-9299a160f80d-620x372.jpeg?w=620&q=85&auto=format&sharp=10&s=05e03d5a79db2dbcf86944ea3882d9dd');
-}
-
-.grid .box.three:nth-child(3) {
-	background-image: url('http://i.kinja-img.com/gawker-media/image/upload/s--GS3IJb27--/1334771764183868967.png');
-}
-
 .grid .box.selectable:hover {
 	border: 4px solid #9F62BD;
 	cursor: pointer;
@@ -100,12 +95,18 @@ a {
 .grid .box .caption {
 	display: inline-block;
 	position: relative;
+	font-size: 1.5em;
 	bottom: -102.5%;
 	padding: 4px 0;
 }
 
 .grid .box:nth-child(even) {
-	margin: 0 20px 20px 20px;
+	margin: 0 20px 0 20px;
+}
+
+#dreamphoto {
+	height: 80vh;
+	width: auto;
 }
 
 /*

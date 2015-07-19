@@ -22,7 +22,7 @@
 <body id="controller" ng-controller="DreamController as dream">
 <div id="fb-root"></div>
 
-<div class="title">dreambook</div>
+<div class="title"><a href="/">dreambook</a></div>
 
 
 <div class="container animate-show" ng-cloak ng-show="step == 0">
@@ -35,7 +35,7 @@
 </div>
 
 <div id="photo" class="container animate-show" ng-cloak ng-show="step == 2">
-	<div class="heading">Choose a photo to dream about</div>
+	<div class="heading">Pick a photo</div>
 
 	<div class="grid">
 		<div id="profile" class="box two profile selectable" ng-click="selectPhoto(profile)">
@@ -52,42 +52,39 @@
 </div>
 
 <div id="style" class="container animate-show" ng-cloak ng-show="step == 3">
-	<div class="heading">Selected photo:</div>
 	<div class="grid">
-		<a href="">
-			<div class="box one" style="background-image: url('{{ photo }}');" ng-click='back()'>
-			</div>
-		</a>
+		<div class="box three selectable" style="background-image: url({{ images[0] }});" ng-click="dream(0)">
+		</div>
+		<div class="box three selectable" style="background-image: url({{ images[1] }});" ng-click="dream(1)">
+		</div>
+		<div class="box three selectable" style="background-image: url({{ images[2] }});" ng-click="dream(2)">
+		</div>
 	</div>
-
-	<div class="heading">Now choose a type of dream</div>
-
 	<div class="grid">
-		<div class="box three selectable" ng-click="dream(1)">
-			<div class="caption">
-				Edges
-			</div>
+		<div class="box three selectable" style="background-image: url({{ images[3] }});" ng-click="dream(3)">
 		</div>
-		<div class="box three selectable" ng-click="dream(4)">
-			<div class="caption">
-					Floral
-			</div>
+		<div class="box three selectable" style="background-image: url({{ images[4] }});" ng-click="dream(4)">
 		</div>
-		<div class="box three selectable" ng-click="dream(7)">
-			<div class="caption">
-					Animal
-			</div>
+		<div class="box three selectable" style="background-image: url({{ images[5] }});" ng-click="dream(5)">
+		</div>
+	</div>
+	<div class="grid">
+		<div class="box three selectable" style="background-image: url({{ images[6] }});" ng-click="dream(6)">
+		</div>
+		<div class="box three selectable" style="background-image: url({{ images[7] }});" ng-click="dream(7)">
+		</div>
+		<div class="box three selectable" style="background-image: url({{ images[8] }});" ng-click="dream(8)">
 		</div>
 	</div>
 </div>
 
+<!--
 <div id="dream" class="container animate-show" ng-cloak ng-show="step == 4">
 	<div class="heading" ng-hide="dreamComplete">Dreaming...</div>
-	<div class="grid">
-		<img id="dreamphoto" src="{{ dreamPhoto }}" width="80%">
-	</div>
+	<img id="dreamphoto" src="{{ dreamPhoto }}">
 	<div class="heading" ng-show="dreamComplete">DONE</div>
 </div>
+-->
 
 <!--
 <div class="footer">

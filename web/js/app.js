@@ -5,13 +5,56 @@
 		$scope.step = 0;
 		$scope.photo = "";
 
-		$scope.dreamPhoto = "";
-		$scope.dreamComplete = false;
-		dreamPhotoID = "";
-		dreamStep = 1;
-		lastDreamStep = -1;
+		$scope.images = [
+			"img/ex/template0.jpg",
+			"img/ex/template1.jpg",
+			"img/ex/template2.jpg",
+			"img/ex/template3.jpg",
+			"img/ex/template4.jpg",
+			"img/ex/template5.jpg",
+			"img/ex/template6.jpg",
+			"img/ex/template7.jpg",
+			"img/ex/template8.jpg",
+		];
+
+		dreamPhotoIDs = [
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+		];
+
+		dreamSteps = [
+			-1,
+			-1,
+			-1,
+			-1,
+			-1,
+			-1,
+			-1,
+			-1,
+			-1,
+			-1,
+		]
+
 		maxDreamStep = 3;
-		timer = -1;
+
+		timers = [
+			undefined,
+			undefined,
+			undefined,
+			undefined,
+			undefined,
+			undefined,
+			undefined,
+			undefined,
+			undefined,
+		];
 
 		// Initialize FB SDK
 		window.fbAsyncInit = function() {
@@ -95,50 +138,53 @@
 			$scope.photo = element;
 		}
 
-		$scope.dream = function(style) {
-			$scope.step = 4;
-			$scope.dreamPhoto = $scope.photo;
+		$scope.dream = function(index) {
+			if (dreamSteps[index] != -1) {
+				return; // already dreaming this photo
+			}
+
+
+			$scope.images[index] = $scope.photo;
 
 			var client = new HttpClient();
-			var uri = "http://45.55.164.254/dream?url=" + encodeURIComponent($scope.photo) + "&template=" + style;
+			var uri = "http://45.55.164.254/dream?url=" + encodeURIComponent($scope.photo) + "&template=" + index;
 			console.log("Querying " + uri + "...");
 
 			client.get(uri, function(response) {
 				console.log("ID RESPONSE: " + response);
-				dreamPhotoID = response;
+				dreamPhotoIDs[index] = response;
+				dreamSteps[index] = 0;
 
-				refreshImage();
-				timer = setInterval(function() {
-					refreshImage();
+				refreshImage(index);
+				timers[index] = setInterval(function() {
+					refreshImage(index);
 				}, 2000);
 			}, function(response) {
 				
 			});
-
-			//dreamPhotoID = "nuicytgwoykmareouzfybjgc";
 		}
 
-		$scope.back = function(style) {
+		$scope.back = function(index) {
 			$scope.step = 2;
 		}
 
 		// Continually refresh image and progress through phases
-		var refreshImage = function() {
-			var uri = "http://deepdreambook.s3.amazonaws.com/" + dreamPhotoID + dreamStep + ".jpg";
+		var refreshImage = function(index) {
+			var uri = "http://deepdreambook.s3.amazonaws.com/" + dreamPhotoIDs[index] + dreamSteps[index] + ".jpg";
 			var client = new HttpClient();
 
 			client.get(uri, function(response) {
 				console.log("GOT IMAGE UPDATE: " + uri);
 				$scope.$apply(function() {
-					$scope.dreamPhoto = uri;
+					$scope.images[index] = uri;
 				});
 
-				dreamStep++;
-				if (dreamStep > maxDreamStep) {
+				dreamSteps[index]++;
+				if (dreamStep[index] > maxDreamStep) {
 					$scope.$apply(function() {
 						$scope.dreamComplete = true;
 					});
-					clearInterval(timer);
+					clearInterval(timers[index]);
 				}
 			}, function(response) {
 				// do nothing on error
