@@ -8,6 +8,7 @@
 <meta name="description" content="Deep Dream for your Facebook profile picture.">
 <link rel="stylesheet" href="css/style.css" type="text/css">
 
+<script src="js/jquery-2.1.4.min.js"></script>
 <script src="js/angular/angular.min.js"></script>
 <script src="js/angular-animate/angular-animate.min.js"></script>
 <script src="js/app.js"></script>
@@ -22,7 +23,8 @@
 <body id="controller" ng-controller="DreamController as dream">
 <div id="fb-root"></div>
 
-<div class="title"><a href="/">dreambook</a></div>
+<div class="title"><a href="/">dreambook.io</a><br>
+	by Matt Favero, R. E. L. Higgins, Shariq Hashme</div>
 
 
 <div class="container animate-show" ng-cloak ng-show="step == 0">
@@ -30,67 +32,103 @@
 </div>
 
 <div id='login' class="container animate-show" ng-cloak ng-show="step == 1">
-	<div class="heading">Log in with Facebook to get started</div>
-	<div class="fb-login-button" data-size="xlarge" data-show-faces="false" data-auto-logout-link="false" onlogin="checkLoginState();"></div>
+	
+	<div class="heading"><div class="fb-login-button" data-size="xlarge" data-show-faces="false" data-auto-logout-link="false" onlogin="checkLoginState();"></div><br>
+	to deep dream your Facebook</div>
+
+	<br><br><br><br><br>
+	Adapted from Google's <a href="http://googleresearch.blogspot.com.tr/2015/06/inceptionism-going-deeper-into-neural.html">Deep Dream</a>
 </div>
 
-<div id="photo" class="container animate-show" ng-cloak ng-show="step == 2">
-	<div class="heading">Pick a photo</div>
+<div id='photos' class="grid animate-show" ng-cloak ng-show="step == 2">
+  	<div class="grid-sizer"></div>
 
-	<div class="grid">
-		<div id="profile" class="box two profile selectable" ng-click="selectPhoto(profile)">
-			<div class="caption">
-				Profile
-			</div>
-		</div>
-		<div id="cover" class="box two cover selectable" ng-click="selectPhoto(cover)">
-			<div class="caption">
-				Cover
-			</div>
-		</div>
-	</div>
-</div>
+  	<div id="img0" class="grid-item">
+  		<img src="{{ images[0] }}">
+  		<div class="caption">
+  			dreaming...
+  		</div>
+  		<div class="progressbar" style="width: {{ progressBar[0] }}%">
+  			&nbsp;
+  		</div>
+  	</div>
+	<div id="img1" class="grid-item">
+  		<img src="{{ images[1] }}">
+  		<div class="caption">
+  			dreaming...
+  		</div>
+  		<div class="progressbar" style="width: {{ progressBar[1] }}%">
+  			&nbsp;
+  		</div>
+  	</div>
+  	<div id="img2" class="grid-item">
+  		<img src="{{ images[2] }}">
+  		<div class="caption">
+  			dreaming...
+  		</div>
+  		<div class="progressbar" style="width: {{ progressBar[2] }}%">
+  			&nbsp;
+  		</div>
+  	</div>
+  	<div id="img3" class="grid-item">
+  		<img src="{{ images[3] }}">
+  		<div class="caption">
+  			dreaming...
+  		</div>
+  		<div class="progressbar" style="width: {{ progressBar[3] }}%">
+  			&nbsp;
+  		</div>
+  	</div>
 
-<div id="style" class="container animate-show" ng-cloak ng-show="step == 3">
-	<div class="grid">
-		<div class="box three selectable" style="background-image: url({{ images[0] }});" ng-click="dream(0)">
-		</div>
-		<div class="box three selectable" style="background-image: url({{ images[1] }});" ng-click="dream(1)">
-		</div>
-		<div class="box three selectable" style="background-image: url({{ images[2] }});" ng-click="dream(2)">
-		</div>
-	</div>
-	<div class="grid">
-		<div class="box three selectable" style="background-image: url({{ images[3] }});" ng-click="dream(3)">
-		</div>
-		<div class="box three selectable" style="background-image: url({{ images[4] }});" ng-click="dream(4)">
-		</div>
-		<div class="box three selectable" style="background-image: url({{ images[5] }});" ng-click="dream(5)">
-		</div>
-	</div>
-	<div class="grid">
-		<div class="box three selectable" style="background-image: url({{ images[6] }});" ng-click="dream(6)">
-		</div>
-		<div class="box three selectable" style="background-image: url({{ images[7] }});" ng-click="dream(7)">
-		</div>
-		<div class="box three selectable" style="background-image: url({{ images[8] }});" ng-click="dream(8)">
-		</div>
-	</div>
+  	<div id="img4" class="grid-item grid-item--cover">
+  		<img src="{{ images[4] }}">
+  		<div class="caption">
+  			dreaming...
+  		</div>
+  		<div class="progressbar" style="width: {{ progressBar[4] }}%">
+  			&nbsp;
+  		</div>
+  	</div>
+	<div id="img5" class="grid-item grid-item--cover">
+  		<img src="{{ images[5] }}">
+  		<div class="caption">
+  			dreaming...
+  		</div>
+  		<div class="progressbar" style="width: {{ progressBar[5] }}%">
+  			&nbsp;
+  		</div>
+  	</div>
+  	<div id="img6" class="grid-item grid-item--cover">
+  		<img src="{{ images[6] }}">
+  		<div class="caption">
+  			dreaming...
+  		</div>
+  		<div class="progressbar" style="width: {{ progressBar[6] }}%">
+  			&nbsp;
+  		</div>
+  	</div>
+  	<div id="img7" class="grid-item grid-item--cover">
+  		<img src="{{ images[7] }}">
+  		<div class="caption">
+  			dreaming...
+  		</div>
+  		<div class="progressbar" style="width: {{ progressBar[7] }}%">
+  			&nbsp;
+  		</div>
+  	</div>
 </div>
 
 <!--
 <div id="dream" class="container animate-show" ng-cloak ng-show="step == 4">
-	<div class="heading" ng-hide="dreamComplete">Dreaming...</div>
+	<div class="heading" ng-hide="dreamComplete">dreaming...</div>
 	<img id="dreamphoto" src="{{ dreamPhoto }}">
 	<div class="heading" ng-show="dreamComplete">DONE</div>
 </div>
 -->
 
-<!--
 <div class="footer">
-	Click <a href="">here</a> to wake up
+	by Matt Favero, Richard Higgins and Shariq Hashme
 </div>
--->
 
 </body>
 </html>
