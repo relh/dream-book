@@ -90,7 +90,7 @@ def deepdream(net, base_img, iter_n=10, octave_n=4, octave_scale=1.4, end='incep
             if not clip: # adjust image contrast if clipping is disabled
                 vis = vis*(255.0/np.percentile(vis, 99.98))
                 partial = StringIO()
-                PIL.Image.fromarray(np.uint8(np.clip(vis, 0, 255))).save(partial,'jpeg')
+                PIL.Image.fromarray(np.uint8(np.clip(vis, 0, 255))).save(partial,'jpeg',quality=90)
                 yield partial.getvalue()
             print octave, i, end, vis.shape
             clear_output(wait=True)
@@ -99,12 +99,14 @@ def deepdream(net, base_img, iter_n=10, octave_n=4, octave_scale=1.4, end='incep
         detail = src.data[0]-octave_base
     # returning the resulting image
         partial = StringIO()
-        PIL.Image.fromarray(np.uint8(np.clip(deprocess(net, src.data[0]), 0, 255))).save(partial,'jpeg')
+        PIL.Image.fromarray(np.uint8(np.clip(deprocess(net, src.data[0]), 0, 255))).save(partial,'jpeg',quality=90)
         yield partial.getvalue()
 
 # deep dream
 # on each image:
 def dreambaby(img_input, template = 0):
+    size = 1000,1000
+    img_input.thumbnail(size, PIL.Image.ANTIALIAS)
     img = np.float32(img_input)
     print 'in dream baby'
     if template == 0:
