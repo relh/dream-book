@@ -108,9 +108,9 @@ def dreambaby(img_input, template = 0):
     # new resize makes smallest dimension at most a 1000
     if img_input.width > 1000 or img_input.height > 1000:
     	if img_input.width > img_input.height:
-        	factor = 1000 / image.height
+        	factor = 1000 / img_input.height
     	else:
-        	factor = 1000 / image.width
+        	factor = 1000 / img_input.width
     img_input.resize((img_input.height * factor, img_input.width * factor), PIL.Image.ANTIALIAS)
     img = np.float32(img_input)
 
