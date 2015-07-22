@@ -114,24 +114,24 @@ def dreambaby(img_input, template = 0):
         img_input.resize((img_input.height * factor, img_input.width * factor), PIL.Image.ANTIALIAS)
     img = np.float32(img_input)
 
-    print 'in dream baby'
+    print 'in dream baby' # Tweaking of iter's going forward
     if template == 0:
-        for partial in deepdream(net, img, iter_n = 40, end = 'conv2/3x3_reduce'):
+        for partial in deepdream(net, img, iter_n = 35, end = 'conv2/3x3_reduce'):
             yield partial
     elif template == 1:
-        for partial in deepdream(net, img, iter_n = 40, end = 'inception_3a/1x1'):
+        for partial in deepdream(net, img, iter_n = 35, end = 'inception_3a/1x1'):
             yield partial
     elif template == 2:
-        for partial in deepdream(net, img, iter_n = 40, end = 'inception_3b/3x3'):
+        for partial in deepdream(net, img, iter_n = 35, end = 'inception_3b/3x3'):
             yield partial
     elif template == 3:
-        for partial in deepdream(net, img, iter_n = 40, end = 'inception_3b/5x5'):
+        for partial in deepdream(net, img, iter_n = 35, end = 'inception_3b/5x5'):
             yield partial
     elif template == 4:
-        for partial in deepdream(net, img, iter_n = 40, end = 'inception_3b/pool_proj'):
+        for partial in deepdream(net, img, iter_n = 35, end = 'inception_3b/pool_proj'):
             yield partial
     elif template == 5:
-        for partial in deepdream(net, img, iter_n = 40, end = 'inception_4a/1x1'):
+        for partial in deepdream(net, img, iter_n = 35, end = 'inception_4a/1x1'):
             yield partial
     elif template == 6:
         for partial in deepdream(net, img, iter_n = 40, end = 'inception_4c/pool_proj'):
