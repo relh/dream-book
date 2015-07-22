@@ -105,9 +105,15 @@ def deepdream(net, base_img, iter_n=10, octave_n=4, octave_scale=1.4, end='incep
 # deep dream
 # on each image:
 def dreambaby(img_input, template = 0):
-    size = 1000,1000
-    img_input.thumbnail(size, PIL.Image.ANTIALIAS)
+    # new resize makes smallest dimension at most a 1000
+    if img_input.width > 1000 or img_input.height > 1000:
+    	if img_input.width > img_input.height:
+        	factor = 1000 / image.height
+    	else:
+        	factor = 1000 / image.width
+    img_input.resize((img_input.height * factor, img_input.width * factor), PIL.Image.ANTIALIAS)
     img = np.float32(img_input)
+
     print 'in dream baby'
     if template == 0:
         for partial in deepdream(net, img, iter_n = 40, end = 'conv2/3x3_reduce'):
