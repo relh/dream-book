@@ -90,7 +90,7 @@ def deepdream(net, base_img, iter_n=10, octave_n=4, octave_scale=1.4, end='incep
             if not clip: # adjust image contrast if clipping is disabled
                 vis = vis*(255.0/np.percentile(vis, 99.98))
                 partial = StringIO()
-                PIL.Image.fromarray(np.uint8(np.clip(vis, 0, 255))).save(partial,'jpeg')
+                PIL.Image.fromarray(np.uint8(np.clip(vis, 0, 255))).save(partial,'jpeg',quality=90)
                 yield partial.getvalue()
             print octave, i, end, vis.shape
             clear_output(wait=True)
@@ -99,47 +99,49 @@ def deepdream(net, base_img, iter_n=10, octave_n=4, octave_scale=1.4, end='incep
         detail = src.data[0]-octave_base
     # returning the resulting image
         partial = StringIO()
-        PIL.Image.fromarray(np.uint8(np.clip(deprocess(net, src.data[0]), 0, 255))).save(partial,'jpeg')
+        PIL.Image.fromarray(np.uint8(np.clip(deprocess(net, src.data[0]), 0, 255))).save(partial,'jpeg',quality=90)
         yield partial.getvalue()
 
 # deep dream
 # on each image:
 def dreambaby(img_input, template = 0):
+    size = 1000,1000
+    img_input.thumbnail(size, PIL.Image.ANTIALIAS)
     img = np.float32(img_input)
     print 'in dream baby'
     if template == 0:
-        for partial in deepdream(net, img, end = 'conv2/3x3_reduce'):
+        for partial in deepdream(net, img, iter_n = 40, end = 'conv2/3x3_reduce'):
             yield partial
     elif template == 1:
-        for partial in deepdream(net, img, end = 'inception_3a/1x1'):
+        for partial in deepdream(net, img, iter_n = 40, end = 'inception_3a/1x1'):
             yield partial
     elif template == 2:
-        for partial in deepdream(net, img, end = 'inception_3b/3x3'):
+        for partial in deepdream(net, img, iter_n = 40, end = 'inception_3b/3x3'):
             yield partial
     elif template == 3:
-        for partial in deepdream(net, img, end = 'inception_3b/5x5'):
+        for partial in deepdream(net, img, iter_n = 40, end = 'inception_3b/5x5'):
             yield partial
     elif template == 4:
-        for partial in deepdream(net, img, end = 'inception_3b/pool_proj'):
+        for partial in deepdream(net, img, iter_n = 40, end = 'inception_3b/pool_proj'):
             yield partial
     elif template == 5:
-        for partial in deepdream(net, img, end = 'inception_4a/1x1'):
+        for partial in deepdream(net, img, iter_n = 40, end = 'inception_4a/1x1'):
             yield partial
     elif template == 6:
-        for partial in deepdream(net, img, iter_n = 50, end = 'inception_4c/pool_proj'):
+        for partial in deepdream(net, img, iter_n = 40, end = 'inception_4c/pool_proj'):
             yield partial
     elif template == 7:
-        for partial in deepdream(net, img, iter_n = 50, end = 'inception_4d/3x3'):
+        for partial in deepdream(net, img, iter_n = 40, end = 'inception_4d/3x3'):
             yield partial
     elif template == 8:
-        for partial in deepdream(net, img, iter_n = 50, end = 'inception_4e/pool_proj'):
+        for partial in deepdream(net, img, iter_n = 40, end = 'inception_4e/pool_proj'):
             yield partial
     elif template == 9:
-        for partial in deepdream(net, img, iter_n = 50, end = 'inception_5a/1x1'):
+        for partial in deepdream(net, img, iter_n = 40, end = 'inception_5a/1x1'):
             yield partial
     elif template == 10:
-        for partial in deepdream(net, img, iter_n = 50, end = 'inception_5a/3x3'):
+        for partial in deepdream(net, img, iter_n = 40, end = 'inception_5a/3x3'):
             yield partial
     elif template == 11:
-        for partial in deepdream(net, img, iter_n = 50, end = 'inception_4b/pool_proj'):
+        for partial in deepdream(net, img, iter_n = 40, end = 'inception_4b/pool_proj'):
             yield partial
