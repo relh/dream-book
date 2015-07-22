@@ -6,15 +6,15 @@
 		$scope.photo = "";
 
 		$scope.images = [
-			"img/ex/template0.jpg",
-			"img/ex/template1.jpg",
-			"img/ex/template2.jpg",
-			"img/ex/template3.jpg",
-			"img/ex/template4.jpg",
-			"img/ex/template5.jpg",
-			"img/ex/template6.jpg",
-			"img/ex/template7.jpg",
-			"img/ex/template8.jpg",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
 		];
 
 		dreamPhotoIDs = [
@@ -42,6 +42,34 @@
 			-1,
 		]
 
+		$scope.progressBar = [
+			0,
+			0,
+			0,
+			0,
+			0,
+			0,
+			0,
+			0,
+			0,
+		]
+
+		templates = [
+			0,
+			1,
+			2,
+			3,
+			4,
+			5,
+			6,
+			7,
+			8,
+			9,
+			10,
+			11,
+			12
+		]
+
 		maxDreamStep = 3;
 
 		timers = [
@@ -55,6 +83,8 @@
 			undefined,
 			undefined,
 		];
+
+		accesstoken = "";
 
 		// Initialize FB SDK
 		window.fbAsyncInit = function() {
@@ -93,6 +123,9 @@
 		}
 
 		var onConnected = function() {
+	       accesstoken =   FB.getAuthResponse()['accessToken'];
+
+
 			FB.api('/me?fields=name,cover,picture.width(9999)', function(response) {
 				$scope.profile = response.picture.data.url;
 
@@ -110,11 +143,14 @@
 					if (bigIdx != -1) {
 						$scope.cover = cover.images[bigIdx].source;
 
-						document.getElementById('cover').style.backgroundImage = 
-							'url(' + $scope.cover + ')';
-
-						document.getElementById('profile').style.backgroundImage =
-							'url(' + $scope.profile + ')';
+						$scope.dream(templates[0], 0, $scope.profile);
+						$scope.dream(templates[1], 1, $scope.profile);
+						$scope.dream(templates[2], 2, $scope.profile);
+						$scope.dream(templates[3], 3, $scope.profile);
+						$scope.dream(templates[4], 4, $scope.cover);
+						$scope.dream(templates[5], 5, $scope.cover);
+						$scope.dream(templates[6], 6, $scope.cover);
+						$scope.dream(templates[7], 7, $scope.cover);
 					}
 				});
 			});
@@ -138,16 +174,15 @@
 			$scope.photo = element;
 		}
 
-		$scope.dream = function(index) {
+		$scope.dream = function(style, index, photo) {
 			if (dreamSteps[index] != -1) {
 				return; // already dreaming this photo
 			}
 
-
-			$scope.images[index] = $scope.photo;
+			$scope.images[index] = photo;
 
 			var client = new HttpClient();
-			var uri = "http://45.55.164.254/dream?url=" + encodeURIComponent($scope.photo) + "&template=" + index;
+			var uri = "http://45.55.164.254/dream?url=" + encodeURIComponent(photo) + "&template=" + style;
 			console.log("Querying " + uri + "...");
 
 			client.get(uri, function(response) {
@@ -155,9 +190,9 @@
 				dreamPhotoIDs[index] = response;
 				dreamSteps[index] = 0;
 
-				refreshImage(index);
+				refreshImage(index, photo == $scope.profile);
 				timers[index] = setInterval(function() {
-					refreshImage(index);
+					refreshImage(index, photo == $scope.profile);
 				}, 2000);
 			}, function(response) {
 				
@@ -169,7 +204,7 @@
 		}
 
 		// Continually refresh image and progress through phases
-		var refreshImage = function(index) {
+		var refreshImage = function(index, isProfile) {
 			var uri = "http://deepdreambook.s3.amazonaws.com/" + dreamPhotoIDs[index] + dreamSteps[index] + ".jpg";
 			var client = new HttpClient();
 
@@ -177,12 +212,30 @@
 				console.log("GOT IMAGE UPDATE: " + uri);
 				$scope.$apply(function() {
 					$scope.images[index] = uri;
+					$scope.progressBar[index] = (dreamSteps[index] / maxDreamStep) * 100;
 				});
 
 				dreamSteps[index]++;
-				if (dreamStep[index] > maxDreamStep) {
+				if (dreamSteps[index] > maxDreamStep) {
 					$scope.$apply(function() {
 						$scope.dreamComplete = true;
+						if (isProfile) {
+							$("#img" + index + " .caption").html("<a>set as profile picture</a>");
+							$("#img" + index + " .caption").click(function () {
+								$(this).html("Loading...");
+								upPhoto($scope.images[index], true);
+							});
+							$("#img" + index + " .progressbar").backgroundColor = "rgba(0, 0, 0, 0.5)";
+						}
+						else {
+							$("#img" + index + " .caption").html("<a>set as cover photo</a>");
+							$("#img" + index + " .caption").click(function () {
+								$(this).html("Loading...");
+								upPhoto($scope.images[index], false);
+							});
+							$("#img" + index + " .progressbar").backgroundColor = "rgba(0, 0, 0, 0.5)";
+						}
+						
 					});
 					clearInterval(timers[index]);
 				}
@@ -207,5 +260,61 @@
 		    }
 		}
 
+		var upPhoto = function(photo, isProfile) {
+			    FB.login(function(response) {
+			       if (response.authResponse) {
+			         var access_token =   FB.getAuthResponse()['accessToken'];
+			         console.log('Access Token = '+ access_token);
+						FB.api('me/photos', 'post', {
+				            message: 'Created with http://dreambook.io',
+			            	url: photo,
+			            	status: 'success',
+			            	access_token: accesstoken
+			        	}, function (response) {
+				            if (!response || response.error) {
+				                console.log('Error occured:' + response);
+				                console.log(response);
+				            } else {
+				                console.log('Post ID: ' + response.id);
+				                if (isProfile) {
+		                			window.location.href = "http://www.facebook.com/photo.php?fbid=" + response.id + "&makeprofile=1";
+				                }
+				                else {
+				                	window.location.href = "http://www.facebook.com/profile.php?preview_cover=" + response.id;
+				                }
+				            }
+				        });
+			       } else {
+			         console.log('User cancelled login or did not fully authorize.');
+			       }
+			     }, {scope: 'publish_actions'});
+		}
+
+		var getRandom = function (set) {
+			var rand = Math.random();
+			var total = 1;
+			console.log(rand);
+			for (var i = 0; i < set.length; i++) {
+				total -= set[i].chance;
+				if (rand > total) {
+					return set[i];
+				}
+			}
+		}
+
+		// from https://css-tricks.com/snippets/javascript/shuffle-array/ due to laziness
+		function Shuffle(o) {
+			for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+			return o;
+		};
+
+
+		Shuffle(templates);
 	}]);
+
+	app.filter('slice', function() {
+	  	return function(arr, start, end) {
+	    return arr.slice(start, end);
+	  };
+	});
 })();

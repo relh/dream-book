@@ -3,7 +3,6 @@ body {
 	padding: 0;
 	margin: 0;
 	color: #666;
-	padding-bottom: 40px;
 }
 
 a {
@@ -11,8 +10,19 @@ a {
 	color: #8AA7DE;
 }
 
+/* Start of photos stuff */
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+/* force scrollbar */
+html { overflow-y: scroll; }
+
 /* Initially hide until page is loaded */
 #main {
+
 }
 
 #login {
@@ -20,10 +30,14 @@ a {
 	text-align: center;
 }
 
+#login a {
+	cursor: help;
+}
+
 .title {
 	background-color: #9F62BD;
+	color: rgba(255, 255, 255, 0.5);
 	padding: 20px 20px;
-	margin-bottom: 20px;
 	text-align: center;
 }
 
@@ -38,111 +52,68 @@ a {
 	text-shadow: 0 0 10px #ccffcc;
 }
 
-.container {
-	text-align: center;
-}
-
-.container .heading {
-	font-weight: 400;
-	font-size: 1.5em;
-	padding: 0 0.5em 0.5em;
-}
-
-.grid {
-	width: 100%;
-	margin-bottom: 20px;
-}
-
-.grid .box {
-	display: inline-block;
-	border: 4px solid #eee;
-	padding: 0.5% 0.5% 0 0.5%;
-	background-position: center;
-	background-size: cover;
-	background-repeat: no-repeat;
-	transition: 0.2s ease-out border;
-}
-
-
-.grid .box.one {
-	width: 45%;
-	height: 300px;
-	border: none;
-	background-size: auto 100% !important; 
-	max-width: 500px;
-}
-
-.grid .box.two {
-	width: 33%;
-	height: 300px;
-	max-width: 450px;
-}
-
-.grid .box.three {
-	width: 28%;
-	padding: 0.5% 0.5% 0 0.5%;
-	cursor: pointer;
-	background-size: auto 100% !important;
-	height: 300px;
-	max-width: 300px;
-}
-
-.grid .box.selectable:hover {
-	border: 4px solid #9F62BD;
-	cursor: pointer;
-}
-
-.grid .box .caption {
-	display: inline-block;
-	position: relative;
-	font-size: 1.5em;
-	bottom: -102.5%;
-	padding: 4px 0;
-}
-
-.grid .box:nth-child(even) {
-	margin: 0 20px 0 20px;
-}
-
 #dreamphoto {
 	height: 80vh;
 	width: auto;
 }
 
-/*
-#dreamphoto {
-    -moz-transform: scaleY(-1);
-    -o-transform: scaleY(-1);
-    -webkit-transform: scaleY(-1);
-    transform: scaleY(-1);
-    filter: FlipV;
-    -ms-filter: "FlipV";
-}
-*/
-
-.footer {
-	position: absolute;
-	bottom: 0;
-	padding: 20px 0;
-	width: 100%;
-	background-color: #555;
-	color: #fff;
+.heading {
 	text-align: center;
+	font-size: 2em;
+	margin: 10px 0 ;
+	padding-top: 20px;
+	line-height: 2em;
 }
 
-@media only screen and (max-width: 720px)
-{
-	.grid .box {
-		display: block !important;
-		margin: 0 auto !important;
-		width: 90% !important;
-		max-width: 300px !important;
-	}
 
-	.grid .box:not(:first-child) {
-		margin: 40px auto !important;
-	}
+/* Photos stuff */
+
+.grid-sizer,
+.grid-item {
+  width: 25%;
 }
+
+.grid-item {
+  position: relative;
+  float: left;
+  background: none;
+}
+
+.grid-item img {
+  display: block;
+  width: 100%;
+}
+
+.grid-item--cover { 
+	width: 50%;
+}
+
+.grid-item .caption {
+	width: 100%;
+	position: absolute;
+	text-align: center;
+	background-color: rgba(0, 0, 0, 0.5);
+	color: rgba(255, 255, 255, 0.75);
+	font-size: 1.5em;
+	z-index: 5;
+	bottom: 0;
+	padding: 6px;
+}
+
+.grid-item .progressbar {
+	width: 0%;
+	position: absolute;
+	text-align: center;
+	background-color: rgba(50, 255, 50, 0.5);
+	color: rgba(255, 255, 255, 0.5);
+	font-size: 1.5em;
+	z-index: 4;
+	bottom: 0;
+	padding: 6px;
+}
+
+
+/* End of photos stuff */
 
 /* Animations */
 .ng-hide-add, .ng-hide-remove {
@@ -154,7 +125,6 @@ a {
 	transition: 2s ease-out all;
 	opacity: 1;
 }
-
 
 .ng-hide {
 	transition: 0s all;
