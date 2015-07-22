@@ -111,7 +111,7 @@ def dreambaby(img_input, template = 0):
         	factor = 1000 / img_input.height
     	else:
         	factor = 1000 / img_input.width
-    img_input.resize((img_input.height * factor, img_input.width * factor), PIL.Image.ANTIALIAS)
+        img_input.resize((img_input.height * factor, img_input.width * factor), PIL.Image.ANTIALIAS)
     img = np.float32(img_input)
 
     print 'in dream baby'
