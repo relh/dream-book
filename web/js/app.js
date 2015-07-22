@@ -14,7 +14,7 @@
 			"",
 			"",
 			"",
-			"",
+			""
 		];
 
 		dreamPhotoIDs = [
@@ -26,7 +26,7 @@
 			"",
 			"",
 			"",
-			"",
+			""
 		];
 
 		dreamSteps = [
@@ -39,7 +39,7 @@
 			-1,
 			-1,
 			-1,
-			-1,
+			-1
 		]
 
 		$scope.progressBar = [
@@ -51,7 +51,7 @@
 			0,
 			0,
 			0,
-			0,
+			0
 		]
 
 		templates = [
@@ -66,8 +66,7 @@
 			8,
 			9,
 			10,
-			11,
-			12
+			11
 		]
 
 		maxDreamStep = 3;
@@ -81,7 +80,7 @@
 			undefined,
 			undefined,
 			undefined,
-			undefined,
+			undefined
 		];
 
 		accesstoken = "";
@@ -219,21 +218,24 @@
 				if (dreamSteps[index] > maxDreamStep) {
 					$scope.$apply(function() {
 						$scope.dreamComplete = true;
+
+						$("#img" + index + " .progressbar").css("background-color", "rgba(70, 70, 150, 0.75)");
+						$("#img" + index + " .progressbar").css("border", "2px #fff solid");
+						$("#img" + index + " .caption").css("background", "none");
+						
 						if (isProfile) {
-							$("#img" + index + " .caption").html("<a>set as profile picture</a>");
+							$("#img" + index + " .caption").html("<a>Set Profile Picture</a>");
 							$("#img" + index + " .caption").click(function () {
 								$(this).html("Loading...");
 								upPhoto($scope.images[index], true);
 							});
-							$("#img" + index + " .progressbar").backgroundColor = "rgba(0, 0, 0, 0.5)";
 						}
 						else {
-							$("#img" + index + " .caption").html("<a>set as cover photo</a>");
+							$("#img" + index + " .caption").html("<a>Set Cover Photo</a>");
 							$("#img" + index + " .caption").click(function () {
 								$(this).html("Loading...");
 								upPhoto($scope.images[index], false);
 							});
-							$("#img" + index + " .progressbar").backgroundColor = "rgba(0, 0, 0, 0.5)";
 						}
 						
 					});

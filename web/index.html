@@ -23,8 +23,8 @@
 <body id="controller" ng-controller="DreamController as dream">
 <div id="fb-root"></div>
 
-<div class="title"><a href="/">dreambook.io</a><br>
-	by Matt Favero, R. E. L. Higgins, Shariq Hashme</div>
+<div class="title"><a class="main" href="/">dreambook.io</a><br>
+	by <a href="http://mattfavero.com">Matt</a>, <a href="http://relh.net">Richard</a>, and <a href="http://twitter.com/shariq">Shariq</a></div>
 
 
 <div class="container animate-show" ng-cloak ng-show="step == 0">
@@ -34,10 +34,11 @@
 <div id='login' class="container animate-show" ng-cloak ng-show="step == 1">
 	
 	<div class="heading"><div class="fb-login-button" data-size="xlarge" data-show-faces="false" data-auto-logout-link="false" onlogin="checkLoginState();"></div><br>
-	to deep dream your Facebook</div>
+	to deep dream your profile picture</div>
 
 	<br><br><br><br><br>
-	Adapted from Google's <a href="http://googleresearch.blogspot.com.tr/2015/06/inceptionism-going-deeper-into-neural.html">Deep Dream</a>
+	Computers have dreams, too. We're about to take your profile and cover<br>photos to a whole new dimension.
+	Adapted from Google's <a href="http://googleresearch.blogspot.com.tr/2015/06/inceptionism-going-deeper-into-neural.html">Deep Dream</a>.
 </div>
 
 <div id='photos' class="grid animate-show" ng-cloak ng-show="step == 2">
@@ -125,10 +126,6 @@
 	<div class="heading" ng-show="dreamComplete">DONE</div>
 </div>
 -->
-
-<div class="footer">
-	by Matt Favero, Richard Higgins and Shariq Hashme
-</div>
 
 </body>
 </html>

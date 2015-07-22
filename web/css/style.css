@@ -28,6 +28,7 @@ html { overflow-y: scroll; }
 #login {
 	margin: 0 auto;
 	text-align: center;
+	width: 80%;
 }
 
 #login a {
@@ -41,15 +42,20 @@ html { overflow-y: scroll; }
 	text-align: center;
 }
 
-.title a {
+.title a.main {
 	font-weight: 600;
 	font-size: 3em;
 	color: #fff;
 }
 
-.title a:hover {
+.title a.main:hover {
 	color: #ccffcc;
 	text-shadow: 0 0 10px #ccffcc;
+}
+
+.title a:not(.main) {
+	color: rgba(255, 255, 255, 0.5);
+	text-decoration: underline;
 }
 
 #dreamphoto {
@@ -98,6 +104,7 @@ html { overflow-y: scroll; }
 	z-index: 5;
 	bottom: 0;
 	padding: 6px;
+	border: 2px rgba(0, 0, 0, 0) solid;
 }
 
 .grid-item .progressbar {
@@ -110,8 +117,14 @@ html { overflow-y: scroll; }
 	z-index: 4;
 	bottom: 0;
 	padding: 6px;
+	border-radius: 6px;
+	border: 2px rgba(0, 0, 0, 0) solid;
 }
 
+.grid-item .caption a {
+	color: #fff;
+	cursor: pointer;
+}
 
 /* End of photos stuff */
 
