@@ -116,7 +116,7 @@ def dreambaby(img_input, template = 0):
 
     print 'in dream baby' # Tweaking of iter's going forward
     if template == 0:
-        for partial in deepdream(net, img, iter_n = 35, end = 'conv2/3x3_reduce'):
+        for partial in deepdream(net, img, iter_n = 30, end = 'conv2/3x3_reduce'):
             yield partial
     elif template == 1:
         for partial in deepdream(net, img, iter_n = 35, end = 'inception_3a/1x1'):
