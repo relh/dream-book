@@ -124,6 +124,9 @@
 		var onConnected = function() {
 	       accesstoken =   FB.getAuthResponse()['accessToken'];
 
+			$scope.$apply(function() {
+				$scope.step = 2;
+			});
 
 			FB.api('/me?fields=name,cover,picture.width(9999)', function(response) {
 				$scope.profile = response.picture.data.url;
@@ -150,12 +153,12 @@
 						$scope.dream(templates[5], 5, $scope.cover);
 						$scope.dream(templates[6], 6, $scope.cover);
 						$scope.dream(templates[7], 7, $scope.cover);
+
+						$scope.$apply(function() {
+							$scope.step = 3;
+						});
 					}
 				});
-			});
-
-			$scope.$apply(function() {
-				$scope.step = 2;
 			});
 		}
 		
@@ -219,6 +222,7 @@
 					$scope.$apply(function() {
 						$scope.dreamComplete = true;
 
+						$scope.progressBar[index] = 100;
 						$("#img" + index + " .progressbar").css("background-color", "rgba(70, 70, 150, 0.75)");
 						$("#img" + index + " .progressbar").css("border", "2px #fff solid");
 						$("#img" + index + " .caption").css("background", "none");
