@@ -56,7 +56,9 @@ def push():
         return URL_CACHE[url]
     URL_CACHE[url] = token = generate_token()
     MANAGED_QUEUE.put((token, layer, iterations, recursions, url))
-    return token
+    response.body = token
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response
 
 
 if __name__ == '__main__':

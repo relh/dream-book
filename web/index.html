@@ -25,8 +25,12 @@
 <body id="controller" ng-controller="DreamController as dream">
 <div id="fb-root"></div>
 
-<div class="title"><a class="main" href="/">dreambook.io</a><br>
-	by <a href="http://mattfavero.com">Matt</a>, <a href="http://relh.net">Richard</a>, and <a href="http://twitter.com/shariq">Shariq</a></div>
+<div class="title">
+  <a class="main" href="/">dreambook.io</a><br>
+	by <a href="http://mattfavero.com">Matt</a>, <a href="http://relh.net">Richard</a>, and <a href="http://twitter.com/shariq">Shariq</a>
+
+  <span class="timer" ng-cloak ng-show="step == 3">About 210 seconds remaining. </span>
+</div>
 
 
 <div class="container animate-show" ng-cloak ng-show="step == 0 || step == 2">
@@ -44,81 +48,98 @@
 </div>
 
 <div id='photos' class="grid animate-show" ng-cloak ng-show="step == 3">
-  	<div class="grid-sizer"></div>
-
-  	<div id="img0" class="grid-item">
-  		<img src="{{ images[0] }}">
-  		<div class="caption">
-  			dreaming...
-  		</div>
-  		<div class="progressbar" style="width: {{ progressBar[0] }}%">
-  			&nbsp;
-  		</div>
-  	</div>
-	<div id="img1" class="grid-item">
-  		<img src="{{ images[1] }}">
-  		<div class="caption">
-  			dreaming...
-  		</div>
-  		<div class="progressbar" style="width: {{ progressBar[1] }}%">
-  			&nbsp;
-  		</div>
-  	</div>
-  	<div id="img2" class="grid-item">
-  		<img src="{{ images[2] }}">
-  		<div class="caption">
-  			dreaming...
-  		</div>
-  		<div class="progressbar" style="width: {{ progressBar[2] }}%">
-  			&nbsp;
-  		</div>
-  	</div>
-  	<div id="img3" class="grid-item">
-  		<img src="{{ images[3] }}">
-  		<div class="caption">
-  			dreaming...
-  		</div>
-  		<div class="progressbar" style="width: {{ progressBar[3] }}%">
-  			&nbsp;
-  		</div>
-  	</div>
-
-  	<div id="img4" class="grid-item grid-item--cover">
-  		<img src="{{ images[4] }}">
-  		<div class="caption">
-  			dreaming...
-  		</div>
-  		<div class="progressbar" style="width: {{ progressBar[4] }}%">
-  			&nbsp;
-  		</div>
-  	</div>
-	<div id="img5" class="grid-item grid-item--cover">
-  		<img src="{{ images[5] }}">
-  		<div class="caption">
-  			dreaming...
-  		</div>
-  		<div class="progressbar" style="width: {{ progressBar[5] }}%">
-  			&nbsp;
-  		</div>
-  	</div>
-  	<div id="img6" class="grid-item grid-item--cover">
-  		<img src="{{ images[6] }}">
-  		<div class="caption">
-  			dreaming...
-  		</div>
-  		<div class="progressbar" style="width: {{ progressBar[6] }}%">
-  			&nbsp;
-  		</div>
-  	</div>
-  	<div id="img7" class="grid-item grid-item--cover">
-  		<img src="{{ images[7] }}">
-  		<div class="caption">
-  			dreaming...
-  		</div>
-  		<div class="progressbar" style="width: {{ progressBar[7] }}%">
-  			&nbsp;
-  		</div>
-  	</div>
+    <div id='profilepictures'>
+    	<div id="img0" class="grid-item">
+    		<img src="{{ images[0] }}">
+        <div class="paddedcontainer">
+      		<div class="caption">
+      			dreaming...
+      		</div>
+      		<div class="progressbar" style="width: {{ progressBar[0] }}%">
+      			
+      		</div>
+        </div>
+    	</div>
+      <div id="img1" class="grid-item">
+        <img src="{{ images[1] }}">
+        <div class="paddedcontainer">
+          <div class="caption">
+            dreaming...
+          </div>
+          <div class="progressbar" style="width: {{ progressBar[1] }}%">
+            
+          </div>
+        </div>
+      </div>
+      <div id="img2" class="grid-item">
+        <img src="{{ images[2] }}">
+        <div class="paddedcontainer">
+          <div class="caption">
+            dreaming...
+          </div>
+          <div class="progressbar" style="width: {{ progressBar[2] }}%">
+            
+          </div>
+        </div>
+      </div>
+      <div id="img3" class="grid-item">
+        <img src="{{ images[3] }}">
+        <div class="paddedcontainer">
+          <div class="caption">
+            dreaming...
+          </div>
+          <div class="progressbar" style="width: {{ progressBar[3] }}%">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id='coverphotos'>
+      <div id="img4" class="grid-item grid-item--cover">
+        <img src="{{ images[4] }}">
+        <div class="paddedcontainer">
+          <div class="caption">
+            dreaming...
+          </div>
+          <div class="progressbar" style="width: {{ progressBar[4] }}%">
+            
+          </div>
+        </div>
+      </div>
+      <div id="img5" class="grid-item grid-item--cover">
+        <img src="{{ images[5] }}">
+        <div class="paddedcontainer">
+          <div class="caption">
+            dreaming...
+          </div>
+          <div class="progressbar" style="width: {{ progressBar[5] }}%">
+            
+          </div>
+        </div>
+      </div>
+      <div id="img6" class="grid-item grid-item--cover">
+        <img src="{{ images[6] }}">
+        <div class="paddedcontainer">
+          <div class="caption">
+            dreaming...
+          </div>
+          <div class="progressbar" style="width: {{ progressBar[6] }}%">
+            
+          </div>
+        </div>
+      </div>
+      <div id="img7" class="grid-item grid-item--cover">
+        <img src="{{ images[7] }}">
+        <div class="paddedcontainer">
+          <div class="caption">
+            dreaming...
+          </div>
+          <div class="progressbar" style="width: {{ progressBar[7] }}%">
+            
+          </div>
+        </div>
+      </div>
+    </div>
 </div>
 
 <!--

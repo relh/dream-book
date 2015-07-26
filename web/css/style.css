@@ -18,7 +18,10 @@ a {
 }
 
 /* force scrollbar */
-html { overflow-y: scroll; }
+html { 
+	overflow-y: scroll;
+	padding-bottom: 20px;
+}
 
 /* Initially hide until page is loaded */
 #main {
@@ -36,7 +39,7 @@ html { overflow-y: scroll; }
 }
 
 .title {
-	background-color: #9F62BD;
+	background-color: #9f62bd;
 	color: rgba(255, 255, 255, 0.5);
 	padding: 20px 20px;
 	text-align: center;
@@ -58,6 +61,17 @@ html { overflow-y: scroll; }
 	text-decoration: underline;
 }
 
+.title .timer {
+	overflow: hidden;
+	position: absolute;
+	float: right;
+	right: 20px;
+	top: -20px;
+	height: 100%;
+	vertical-align: middle;
+	text-align: right;
+}
+
 #dreamphoto {
 	height: 80vh;
 	width: auto;
@@ -71,7 +85,6 @@ html { overflow-y: scroll; }
 	line-height: 2em;
 }
 
-
 /* Photos stuff */
 
 .grid-sizer,
@@ -83,6 +96,11 @@ html { overflow-y: scroll; }
   position: relative;
   float: left;
   background: none;
+  padding: 12px 12px 0 0;
+}
+
+#profilepictures:first-child, #coverphotos:nth-child(even) {
+	padding-left: 12px;
 }
 
 .grid-item img {
@@ -91,33 +109,39 @@ html { overflow-y: scroll; }
 }
 
 .grid-item--cover { 
-	width: 50%;
+	width: 49.9%;
+	margin: 0 auto;
+}
+
+.grid-item .paddedcontainer {
+	width: 100%;
+	position: relative;
 }
 
 .grid-item .caption {
-	width: 100%;
 	position: absolute;
+	width: 100%;
 	text-align: center;
 	background-color: rgba(0, 0, 0, 0.5);
 	color: rgba(255, 255, 255, 0.75);
-	font-size: 1.5em;
 	z-index: 5;
-	bottom: 0;
-	padding: 6px;
+	bottom: 0px;
 	border: 2px rgba(0, 0, 0, 0) solid;
 }
 
+.grid-item .caption:not(:first-child) {
+	left: 6px;
+}
+
 .grid-item .progressbar {
-	width: 0%;
 	position: absolute;
+	height: 6px;
+	width: 0%;
 	text-align: center;
-	background-color: rgba(50, 255, 50, 0.5);
+	background-color: #93C82F;
 	color: rgba(255, 255, 255, 0.5);
-	font-size: 1.5em;
+	font-size: 1.25em;
 	z-index: 4;
-	bottom: 0;
-	padding: 6px;
-	border-radius: 6px;
 	border: 2px rgba(0, 0, 0, 0) solid;
 }
 
@@ -142,4 +166,28 @@ html { overflow-y: scroll; }
 .ng-hide {
 	transition: 0s all;
 	opacity: 0;
+}
+
+@media only screen and (max-width: 768px)
+{
+	.grid-sizer,
+	.grid-item {
+		/*display: block;*/
+	  	width: 50%;
+	}
+
+	.grid-item--cover { 
+		width: 100%;
+		margin: 0 auto;
+	}	
+
+
+	.grid-item .caption {
+		font-size: 1em;
+	}
+
+
+	.grid-item .progressbar {
+		font-size: 1em;
+	}
 }

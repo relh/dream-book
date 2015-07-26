@@ -54,19 +54,16 @@
 			0
 		]
 
+		// 
 		templates = [
-			0,
-			1,
-			2,
-			3,
-			4,
-			5,
-			6,
-			7,
-			8,
-			9,
-			10,
-			11
+			{layer: 0, iterations: 30, recursions: 0},
+			{layer: 1, iterations: 30, recursions: 0},
+			{layer: 2, iterations: 30, recursions: 0},
+			{layer: 3, iterations: 30, recursions: 0},
+			{layer: 4, iterations: 30, recursions: 0},
+			{layer: 5, iterations: 30, recursions: 0},
+			{layer: 6, iterations: 30, recursions: 0},
+			{layer: 7, iterations: 30, recursions: 0},
 		]
 
 		maxDreamStep = 3;
@@ -176,7 +173,7 @@
 			$scope.photo = element;
 		}
 
-		$scope.dream = function(style, index, photo) {
+		$scope.dream = function(template, index, photo) {
 			if (dreamSteps[index] != -1) {
 				return; // already dreaming this photo
 			}
@@ -184,7 +181,7 @@
 			$scope.images[index] = photo;
 
 			var client = new HttpClient();
-			var uri = "http://45.55.164.254/dream?url=" + encodeURIComponent(photo) + "&template=" + style;
+			var uri = "http://45.55.164.254/dream?url=" + encodeURIComponent(photo) + "&layer=" + template.layer + "&iterations=" + template.iterations + "&recursions=" + template.recursions;
 			console.log("Querying " + uri + "...");
 
 			client.get(uri, function(response) {
@@ -225,6 +222,8 @@
 						$scope.progressBar[index] = 100;
 						$("#img" + index + " .progressbar").css("background-color", "rgba(70, 70, 150, 0.75)");
 						$("#img" + index + " .progressbar").css("border", "2px #fff solid");
+						$("#img" + index + " .progressbar").css("cursor", "pointer");
+						$("#img" + index + " .caption").css("cursor", "pointer");
 						$("#img" + index + " .caption").css("background", "none");
 						
 						if (isProfile) {
