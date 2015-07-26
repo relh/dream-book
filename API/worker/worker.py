@@ -47,7 +47,7 @@ def run_worker():
     ''' runs worker indefinitely '''
     while True:
         try:
-            token, template, url = MANAGED_QUEUE.get()
+            token, layer, iterations, recursions, url = MANAGED_QUEUE.get()
             print url
             if '/' not in url:
              print 'bye';return
@@ -55,7 +55,7 @@ def run_worker():
         except:
             traceback.print_exc()
             continue
-        generator = dreambaby(image, template)
+        generator = dreambaby(image, layer, iterations, recursions)
         for counter, partial in enumerate(generator):
             push_buffer(partial, token + str(counter) + '.jpg')
 
