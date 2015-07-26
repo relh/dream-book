@@ -14,7 +14,6 @@ import random
 AUTH_KEY = 'changeinprod'
 MANAGED_QUEUE = remotequeue.make(AUTH_KEY, public=True)
 
-
 # constants
 LETTERS = 'abcefghijklmnopqrstuvwxyz'
 URL_CACHE = {}
@@ -53,12 +52,15 @@ def push():
         response.status = 400
         return 'Error: bad image URL'
     if url in URL_CACHE:
-        return URL_CACHE[url]
-    URL_CACHE[url] = token = generate_token()
-    MANAGED_QUEUE.put((token, layer, iterations, recursions, url))
-    response.body = token
-    response.headers['Access-Control-Allow-Origin'] = '*'
-    return response
+        response.body = URL_CACHE[url]
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        return response
+    else:
+        URL_CACHE[url] = token = generate_token()
+        MANAGED_QUEUE.put((token, layer, iterations, recursions, url))
+        response.body = token
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        return response
 
 
 if __name__ == '__main__':
