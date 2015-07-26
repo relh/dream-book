@@ -37,13 +37,17 @@ def generate_token():
 @route('/dream', method='GET')
 def push():
     ''' takes parameter url, returns token if url is good'''
-    ''' also takes parameter template, which is a number'''
+    ''' also takes parameters layer, iterations, and recursions which are numbers'''
     url = request.params.get('url', '')
     try:
-        template = int(request.params.get('template', ''))
-        assert(0 <= template <= 1000) # to be decided
+        layer      = int(request.params.get('layer', ''))
+        iterations = int(request.params.get('iterations', ''))
+        recursions = int(request.params.get('recursions', ''))
+        assert(0 <= layer <= 82 and 0 <= iterations and 0 <= recursions and 0 <= iterations*recursions <= 100) # dependent on network
     except:
-        template = 0
+        layer = 10
+        iterations = 30
+        recursions = 1
     # does url need to be urldecoded
     if not url_test(url):
         response.status = 400
@@ -51,7 +55,7 @@ def push():
     if url in URL_CACHE:
         return URL_CACHE[url]
     URL_CACHE[url] = token = generate_token()
-    MANAGED_QUEUE.put((token, template, url))
+    MANAGED_QUEUE.put((token, layer, iterations, recursions, url))
     return token
 
 
