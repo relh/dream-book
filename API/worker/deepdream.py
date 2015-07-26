@@ -244,7 +244,6 @@ def dreambaby(img_input, layer = 10, iterations = 30, recursions = 1):
     h, w = frame.shape[:2]
     s = 0.05 # scale coefficient
     for i in xrange(recursions):
-        if result_img != None:
         for partial in deepdream(net, frame, iter_n = iterations, end = layers[layer]):
                 frame = partial
                 yield partial
