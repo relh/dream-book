@@ -211,4 +211,4 @@ def dreambaby(img_input, layer = 10, iterations = 30, recursions = 1):
         frame = nd.affine_transform(frame, [1-s,1-s,1], [h*s/2,w*s/2,0], order=1)
 
     print 'in dream baby' # Tweaking of iter's going forward
-    yield partial
+    yield frame
