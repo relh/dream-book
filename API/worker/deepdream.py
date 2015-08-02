@@ -202,14 +202,9 @@ def dreambaby(img_input, layer = 10, iterations = 30, recursions = 1):
 
     # recursions
     frame = img
-    h, w = frame.shape[:2]
-    s = 0.05 # scale coefficient
     for i in xrange(recursions):
         for partial in deepdream(net, frame, iter_n = iterations, end = layers[layer]):
                 frame = partial
-                h, w = frame.shape[:2]
                 yield partial
-        frame = nd.affine_transform(frame, [1-s,1-s,1], [h*s/2,w*s/2,0], order=1)
-
     print 'in dream baby' # Tweaking of iter's going forward
     yield frame
